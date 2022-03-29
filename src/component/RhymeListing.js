@@ -34,7 +34,6 @@ const RhymeListing = () => {
 
     function datamuseRequest(url, callback) {
         setWordOutput(<h2>...loading</h2>);
-        console.log(url);
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
@@ -59,9 +58,8 @@ const RhymeListing = () => {
 
     function generateListWords(item) {
         const listWords = Object.entries(item).map(([index, words]) => {
-            return <li key={index}>{words.word}<button key={index} type="button" className="btn btn-outline-success" onClick={() => addToSavedWords(words.word)} >(save)</button></li>
+            return <li key={index}>{words.word}<button type="button" className="btn btn-outline-success" onClick={() => addToSavedWords(words.word)} >(save)</button></li>
         });
-        // console.log(listWords)
         return listWords
     }
 
@@ -69,12 +67,11 @@ const RhymeListing = () => {
         const wordsToShow = [];
 
         if (data.length !== 0) {
-            wordsToShow.push(<h2>Words that rhyme with {wordInput}</h2>);
+            wordsToShow.push(<h2 key='k'>Words that rhyme with {wordInput}</h2>);
             let groupData = groupBy(data, 'numSyllables');
-            console.log(groupData);
-            Object.entries(groupData).map(([numSyllables, item]) => {
+            Object.entries(groupData).map(([numSyllables, item], index) => {
                 wordsToShow.push(
-                    <div key={numSyllables}>
+                    <div key={index}>
                         <h3 key={'h3'+numSyllables}>Syllables: {numSyllables}</h3>
                         <ul key={'ul'+numSyllables}>
                             {generateListWords(item)}
@@ -92,7 +89,7 @@ const RhymeListing = () => {
         const wordsToShow = [];
 
         if (data.length !== 0) {
-            wordsToShow.push(<h2>Words with a similar meaning to {wordInput}</h2>);
+            wordsToShow.push(<h2 key='k'>Words with a similar meaning to {wordInput}</h2>);
             wordsToShow.push(
                 <ul>
                     {generateListWords(data)}
